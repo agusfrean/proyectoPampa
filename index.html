@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pampa</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        
+        .sidebar {
+            height: 100%;
+            width: 30%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #343a40;
+            z-index: 1040;
+            transition: width 0.3s; 
+            padding-top: 20%; /* Espacio superior para evitar ser tapado por el botón */
+        }
+
+        .sidebar.collapsed {
+            width: 5%; /* ancho colapsado */
+        }
+
+        .sidebar a {
+            padding: 15px;
+            text-align: center;
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .sidebar.collapsed a {
+            opacity: 0; /* Opciones invisibles cuando colapsa */
+        }
+
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+
+        /* Estilo del contenido principal */
+        .main-content {
+            transition: margin-left 0.3s;
+            margin-left: 35%;
+        }
+
+        .main-content.collapsed {
+            margin-left: 5%;
+        }
+
+        .toggle-btn {
+            position: fixed;
+            top: 15px;
+            left: 60px; 
+            z-index: 1050;
+            color: #5e646b;
+            background-color: #e9ecef;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            transition: left 0.3s;
+        }
+
+        .toggle-btn.collapsed {
+            left: 60px; 
+        }
+    </style>
+</head>
+<body class="d-flex justify-content-center align-items-center vh-100" style="background-image: url(./res/imagenes/pampa5.avif); background-size: cover; background-position: center;">
+
+    <!--  login -->
+    <div id="login-container" class="container mt-5 bg-light bg-opacity-25 p-4 rounded shadow">
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 col-sm-8 col-12">
+                <h2 class="text-center display-2 p-4 fw-bolder">Pampa</h2>
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label for="email" class="form-label" style="color: black;">Usuario (email):</label>
+                        <input type="email" id="email" class="form-control" placeholder="Usuario" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label" style="color: black;">Contraseña:</label>
+                        <input type="password" id="password" class="form-control" placeholder="Contraseña" required>
+                    </div>
+                    <button type="submit" class="btn btn-secondary w-100">Ingresar</button>
+
+                    <div class="text-center mt-3">
+                        <a href="#" style="color: black;">¿Has olvidado tu contraseña?</a><br>
+                        <a href="#" id="show-register" style="color: black;">¿No tienes cuenta? Regístrate</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- registro -->
+    <div id="register-container" class="container mt-5 bg-dark bg-opacity-25 p-4 rounded shadow" style="display: none;">
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 col-sm-8 col-12">
+                <h2 class="text-center display-3 fw-bolder" style="color: white;">Registrate</h2>
+                <form id="registerForm">
+                    <div class="mb-3">
+                        <label for="username" class="form-label" style="color: white;">Usuario (email):</label>
+                        <input type="text" id="username" class="form-control" placeholder="Usuario" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label" style="color: white;">Contraseña:</label>
+                        <input type="password" id="password" class="form-control" placeholder="Contraseña" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label" style="color: white;">Confirmar contraseña:</label>
+                        <input type="password" id="confirmPassword" class="form-control" placeholder="Confirmar contraseña" required>
+                    </div>
+                    <button type="submit" class="btn btn-secondary w-100">Registrar</button>
+
+                    <div class="text-center mt-3">
+                        <a href="#" id="show-login">¿Ya tienes cuenta? Ingresa aquí</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+ <!-- Página principal / home -->
+<div id="home-container" class="container-fluid" style="display: none;">
+    <div class="row">
+        <!-- Sidebar colapsado -->
+        <div id="sidebar" class="sidebar col-auto collapse collapsed">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <a href="#" class="nav-link text-wrap">Inicio</a>
+                    </div>
+                    <div class="col-12">
+                        <a href="#" class="nav-link text-wrap">Características</a>
+                    </div>
+                    <div class="col-12">
+                        <a href="#" class="nav-link text-wrap">Precios</a>
+                    </div>
+                    <div class="col-12">
+                        <a href="#" class="nav-link text-wrap">Contacto</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <!-- Botón para colapsar/expandir  -->
+            <button id="toggleBtn" class="btn toggle-btn collapsed col-1" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar" aria-expanded="false" aria-controls="sidebar" style="width: 10%;">
+                ⮜
+            </button>
+
+            <div id="mainContent" class="main-content col-9 collapsed d-flex justify-content-center align-items-center p-4 ">
+                <div class="row w-100 text-center">
+                    <!-- Columna para el título -->
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <h1 class="display-3 fw-bolder" style="color: white;">Bienvenido a Pampa</h1>
+                    </div>
+                    <!-- Columna para el párrafo -->
+                    <div class="col-lg-12 col-md-12 col-12 mt-3">
+                        <p class="fw-bolder" style="color: white;">Contenido del sitio web...</p>
+                    </div>
+                </div>
+            </div>
+        
+    </div>
+
+    <script src="app.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
